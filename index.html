@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>therapy</title>
+
+    <style>
+        head, body{
+            width:100%;
+            height:100%;
+            overflow: hidden;
+            top:0;
+            left:0;
+            margin:0;
+            padding:0;
+        }
+        #copyright{
+            font-family: Verdana, sans-serif;
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 20px;
+            font-size: .62em;
+        }
+        a, a:visited{
+            text-decoration: none;
+            color: #AAA;
+
+        }
+    </style>
+
+</head>
+<body>
+<script>
+    var can = document.createElement("canvas");
+    document.body.appendChild( can );
+    var ctx = can.getContext("2d");
+    var w = can.width = window.innerWidth;
+    var h = can.height = window.innerHeight;
+
+    var Point = function(){
+
+        function Point(x,y) {
+            this.x = x || 0;
+            this.y = y || 0;
+            this.prev = this.next = null;
+        }
+
+        function sub(other){
+            this.x -= other.x;
+            this.y -= other.y;
+            return this;
+        }
+
+        function add(other){
+            this.x += other.x;
+            this.y += other.y;
+            return this;
+        }
+
+        function mul(scalar){
+            this.x *= scalar;
+            this.y *= scalar;
+            return this;
+        }
+
+        function normalize(){
+            var x=this.x, y=this.y;
+            var length = Math.sqrt(x*x + y*y);
+            if(length > 0){
+                this.x = x/length;
+                this.y = y/length;
+            }
+            return this;
+        }
+
+        function distance(other){
+            var x = this.x - other.x;
+            var y = this.y - other.y;
+            return Math.sqrt(x*x + y*y);
+        }
+
+        function clone(){
+            return new Point(this.x, this.y);
+        }
+
+        var _p = Point.prototype;
+        _p.constructor = Point;
+        _p.sub =            sub;
+        _p.add =            add;
+        _p.mul =            mul;
+        _p.normalize =       normalize;
+        _p.distance =       distance;
+        _p.clone =          clone;
+
+        Point.sub = function( a,b,out ){
+            if( out ){
+                out.x = a.x - b.x;
+                out.y = a.y - b.y;
+                return out;
+            }
+            return new Point(a.x - b.x, a.y - b.y);
+        };
+        return Point;
+    }();
+
+    var Stick = function(){
+
+        function Stick( a,b,length ){
+            this.a = a;
+            this.a.next = b;
+            this.b = b;
+            this.b.prev = a;
+            this.dir = new Point();
+            this.length = length || a.distance(b);
+            this.active = true;
+        }
+
+        function update( growthRate ){
+
+            var dist = this.a.distance( this.b );
+
+            //split the segment if it became too long
+            if( dist > maxLength ){
+
+                //creates a new point NP at the center of the segment
+                var np = new Point( ( this.a.x + this.b.x ) *.5, ( this.a.y + this.b.y ) *.5 );
+                //np.x += ( Math.random()-.5 );
+                //np.y += ( Math.random()-.5 );
+                points.push( np );
+
+                // new segment A ---> NP
+                var ns0 = new Stick( this.a, np );
+                sticks.push( ns0 );
+
+                // new segment NP ---> B
+                var ns1 = new Stick( np, this.b );
+                sticks.push( ns1 );
+
+                this.active = false;
+                return;
+            }
+
+            this.length *= growthRate;
+
+            Point.sub( this.a, this.b, this.dir ).normalize();
+            var force = ( dist - this.length ) / ( dist * .5 );
+            this.dir.mul( force + ( Math.random() -.5 ) );
+
+            this.a.sub( this.dir );
+            this.b.add( this.dir );
+
+        }
+
+        var _p = Stick.prototype;
+        _p.constructor = Stick;
+        _p.update = update;
+        return Stick;
+    }();
+
+    function project( p, a, b, asSegment ){
+
+        var A = p.x - a.x;
+        var B = p.y - a.y;
+        var C = b.x - a.x;
+        var D = b.y - a.y;
+
+        var dot = A * C + B * D;
+        var len = C * C + D * D;
+        var t = dot / len;
+
+        if( asSegment )
+        {
+            if( t < 0 ) return a;
+            if( t > 1 ) return b;
+        }
+        return new Point( a.x + t * C, a.y + t * D );
+
+    }
+    function update(){
+
+        minDist += maxLength * .1;
+        //maxLength *= .999;
+        var scale = 2000 / minDist;
+        var minPointDist = ( maxLength * 4 ) / scale;
+
+        ctx.restore();
+        ctx.save();
+        ctx.clearRect( 0,0,w,h );
+        ctx.fillStyle = "#000";
+        ctx.fillRect( 0,0,w,h );
+
+        ctx.translate(w/2, h/2);
+        ctx.scale( scale, scale );
+
+        points.forEach( function(p, i){
+
+            for( var j = i+1; j < points.length; j++ ){
+
+                var o = points[ j%points.length ];
+                if( p == o )continue;
+                var dist = p.distance( o );
+
+                //the 2 points are too far apart
+                if( dist > minPointDist ) continue;
+
+                Point.sub( p, o, dir ).normalize();
+                var force = ( dist - minDist ) / ( dist * points.length );
+                dir.mul( force );
+                p.sub( dir );
+                o.add( dir );
+            }
+
+            for( j = 0; j < repellers.length - 1; j+=2 ){
+
+                var r0 = repellers[ j ];
+                var r1 = repellers[ ( j + 1 ) % repellers.length ];
+                var pp = project( p, r0, r1, true );
+                dist = p.distance( pp );
+                if( dist > minPointDist * 2 ) continue;
+                Point.sub( p, pp, dir ).normalize();
+                force = ( dist - minDist ) / ( dist * dist );
+                dir.mul( force * .5 );
+                p.sub( dir );
+            }
+
+        });
+
+        //remove invalid segments, update valid segments
+        var i = sticks.length - 1;
+        while( i-- )
+        {
+            if( !sticks[ i ].active )
+            {
+                sticks.splice( i, 1 );
+            }
+            else{
+                sticks[i].update( growthRate );
+            }
+
+        }
+
+        //render (linked list)
+
+        var start = sticks[0].a;
+        var origin = sticks[0].a;
+        ctx.fillStyle = "#fff";
+        ctx.beginPath();
+        ctx.moveTo(origin.x, origin.y );
+        while( origin.next != start )
+        {
+            origin = origin.next;
+            ctx.lineTo(origin.x, origin.y );
+        }
+        ctx.fill();
+
+        start = sticks[0].a;
+        origin = sticks[0].a;
+        while( origin.next != start )
+        {
+
+            ctx.beginPath();
+            ctx.moveTo(origin.x, origin.y );
+            origin = origin.next;
+            ctx.lineTo(origin.x, origin.y );
+            ctx.fill();
+        }
+
+        //end condition
+        if( sticks.length < maxIteration ) {
+//            console.log("update");
+            requestAnimationFrame(update);
+        }
+        else {
+            console.log( "over" );
+        }
+
+    }
+
+    var growthRate      = 1.0001;
+    var maxLength       = 20;           //limit before splitting an edge
+    var minDist         = 5 * maxLength;//points separation
+    var maxIteration    = 2000;
+
+    var size = 500;
+    //those are constrinats uncomment to see what happens
+    var repellers = [
+
+        //new Point( -size , -size ),
+        //new Point( -size *2, 0),
+        //new Point( -size *2, 0),
+        //new Point( 0, size * 2),
+        //
+        //new Point( size , -size ),
+        //new Point( size *2, 0),
+        //new Point( size *2, 0),
+        //new Point( 0, size * 2),
+
+        //new Point( -size , -size ),
+        //new Point( -size *2, 0),
+        //new Point( -size *2, 0),
+        //new Point( -size *2, size),
+
+
+
+        //new Point(  size *2, -size ),
+        //new Point( -size *2, size),
+
+        //new Point( 0, -size ),
+        //new Point( -size, 0),
+        //new Point( 0, size ),
+
+        //new Point( size, 0 ),
+    ];
+    var points = [];
+    var sticks = [];
+
+    var total           = 3;
+    var step            = ( Math.PI * 2 ) / total;
+    var r               = total * 3;
+    for(var i = 0; i < total; i++ ){
+        var p = new Point( Math.cos( i * step ) * r, Math.sin( i * step ) * r);
+        points.push( p );
+    }
+    for(i = 0; i< total; i++ ) {
+        var s = new Stick( points[i], points[(i+1)%points.length] );
+        sticks.push(s);
+    }
+    var dir = new Point();
+    update();
+</script>
+<div id="copyright"><a href="http://www.barradeau.com/">barradeau.com</a></div>
+</body>
+</html>
