@@ -42,6 +42,7 @@
         var provider = '';
         var domains = '';
         map = new Map( provider, domains, window.innerWidth,window.innerHeight,0,23);
+        map.render = false;
         map.loadTiles = false;
         map.autoRender = false;
 
@@ -106,7 +107,7 @@
 
         requestAnimationFrame( update );
 
-        map.loadTiles = ( map.zoom <= 20 );
+//        map.loadTiles = ( map.zoom <= 20 );
         ctx.globalAlpha = .25;
         map.renderTiles(true);
 

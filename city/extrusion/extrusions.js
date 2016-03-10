@@ -66,7 +66,7 @@ function build( tile, json ) {
                 var lat = cs[1];
                 var xy = map.latLonToPixels(  lat,lng, map.zoom );
 
-                //XY map coords to 3D mesh coords
+                //XY map coords to elevation mesh coords
                 var x = ( xy[0] - size / 2 );
                 var y = ( xy[1] - size / 2 );
                 vertices.push( [x,y] );

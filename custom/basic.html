@@ -38,6 +38,8 @@
         var provider = '';
         var domains = '';
         map = new Map( provider, domains, window.innerWidth,window.innerHeight,0,19);
+        map.render = false;
+        map.loadTiles = false;
 
         map.autoRender = false;
 
@@ -114,6 +116,7 @@
         map.renderTiles(true);
 
         ctx.globalAlpha = 1;
+
         ctx.beginPath();
         for( var i = 0; i < json.lat.length; i++ ){
 

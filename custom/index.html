@@ -53,6 +53,8 @@
 //        var provider = '../proxy.php?url=http://dem-grabber/elasticterrain/{z}/{x}/{y}.png';
 //        var domains = 'abc'.split('');
         map = new Map( provider, domains, window.innerWidth,window.innerHeight,0,18);
+        map.render = false;
+        map.loadTiles = false;
         document.body.appendChild(map.canvas);
         ctx = map.ctx;
 

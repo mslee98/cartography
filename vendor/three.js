@@ -29837,7 +29837,7 @@ THREE.Curve.Utils = THREE.CurveUtils; // backwards compatibility
 // TODO: Transformation for Curves?
 
 /**************************************************************
- *	3D Curves
+ *	elevation Curves
  **************************************************************/
 
 // A Factory method for creating new curve subclasses
@@ -31108,7 +31108,7 @@ THREE.LineCurve3 = THREE.Curve.create(
 // File:src/extras/curves/QuadraticBezierCurve3.js
 
 /**************************************************************
- *	Quadratic Bezier 3D curve
+ *	Quadratic Bezier elevation curve
  **************************************************************/
 
 THREE.QuadraticBezierCurve3 = THREE.Curve.create(
@@ -31138,7 +31138,7 @@ THREE.QuadraticBezierCurve3 = THREE.Curve.create(
 // File:src/extras/curves/CubicBezierCurve3.js
 
 /**************************************************************
- *	Cubic Bezier 3D curve
+ *	Cubic Bezier elevation curve
  **************************************************************/
 
 THREE.CubicBezierCurve3 = THREE.Curve.create(
@@ -31169,7 +31169,7 @@ THREE.CubicBezierCurve3 = THREE.Curve.create(
 // File:src/extras/curves/SplineCurve3.js
 
 /**************************************************************
- *	Spline 3D curve
+ *	Spline elevation curve
  **************************************************************/
 
 
@@ -31390,7 +31390,7 @@ THREE.CatmullRomCurve3 = ( function() {
 // File:src/extras/curves/ClosedSplineCurve3.js
 
 /**************************************************************
- *	Closed Spline 3D curve
+ *	Closed Spline elevation curve
  **************************************************************/
 
 
