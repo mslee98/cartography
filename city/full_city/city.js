@@ -28,6 +28,7 @@ var zl = 13;
 var start = 0;
 var controls, skybox, light;
 
+var coolSpotId = 0;
 var coolspots = [
     [new THREE.Vector3(-13634119.075526413, 6928.38777668248, -4536967.009088654), new THREE.Vector3(-13627789.64084282, -389.02672688848816, -4545023.4563437)],
     [new THREE.Vector3(-13626491.56450185, 4771.453392986968, -4544497.95139611), new THREE.Vector3(-13626491.571370194, -2413.5008303714812, -4544497.953505475)],
@@ -39,10 +40,27 @@ var coolspots = [
     [new THREE.Vector3( -13634701.352885144, 2375.181032134179, -4527908.76688087), new THREE.Vector3(-13627602.066840833, -4985.197181545745, -4539271.076151813)]
 ];
 
-window.addEventListener( 'keyup', function( e ){
-    console.log( e );
-} );
+document.body.addEventListener("keyup", function(e) {
 
+    if(e.keyCode == 65 ){
+        taxis.updateTaxiCam( 0.01);
+    }
+    if(e.keyCode == 66 ){
+        taxis.bright();
+        materials.bright();
+    }
+    if(e.keyCode == 68 ) {
+        taxis.dark();
+        materials.dark();
+    }
+    if(e.keyCode == 32 ){
+        camera.position.copy( coolspots[ coolSpotId ][0] );
+        controls.target.copy( coolspots[ coolSpotId ][1] );
+        controls.update();
+        coolSpotId++;
+        coolSpotId %= coolspots.length;
+    }
+}, false);
 window.onload = function() {
 
     scene = new THREE.Scene();
@@ -86,7 +104,7 @@ window.onload = function() {
 
              land.init( scene, size, xy, function(){
 
-                 map.init( size, false );
+                 map.init( size, true );
 
                  map.eventEmitter.on( Map.ON_LOAD_COMPLETE, loadTaxis );
 
