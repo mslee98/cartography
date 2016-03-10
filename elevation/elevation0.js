@@ -5,14 +5,13 @@ var h = window.innerHeight;
 var scene, camera, renderer, mesh, group, target, refEarth;
 var mat, tex_map, tex_ele;
 
-var size = 1024;
+var size = 512;
 
 var proxy = "../proxy.php?url=";
-var provider = "http://ttiles{s}.mqcdn.com/tiles/1.0.0/vy/sat/{z}/{x}/{y}.png";
+var provider = proxy + "http://ttiles{s}.mqcdn.com/tiles/1.0.0/vy/sat/{z}/{x}/{y}.png";
 var domains = "01,02,03,04".split( ',' );
 
 var map = new Map( provider, domains, size, size, 2, 11 );
-//var ele_provider =  proxy + "http://elasticterrain.xyz/data/tiles/{z}/{x}/{y}.png";
 ele_provider = proxy + "http://dem-grabber/elasticterrain/{z}/{x}/{y}.png";
 var ele = new Map( ele_provider, [], size, size,2,10 );
 
@@ -122,7 +121,7 @@ function onTextureUpdate()
 function update(){
 
     requestAnimationFrame(update);
-    map.setView( ele.latitude, ele.longitude, ele.zoom );
+    //map.setView( ele.latitude, ele.longitude, ele.zoom );
 
     var s =  1 / map.resolution( Math.min( map.maxZoom-1, map.zoom ) );
     refEarth.scale.set( s,s,s );

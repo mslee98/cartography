@@ -74,7 +74,6 @@ function onShadersLoaded() {
         },
         vertexShader: ShaderLoader.get(  "elevation_1_vs"),
         fragmentShader: ShaderLoader.get("elevation_1_fs")
-        //,transparent:true
     });
 
     group = new THREE.Group();
@@ -93,7 +92,7 @@ function onShadersLoaded() {
     map.setView( places[2][0], places[2][1], document.getElementById( 'zoom').value );
 
     renderer.domElement.addEventListener( "mousemove", function(e){
-        group.rotation.y = ( window.innerWidth / 2 -e.clientX )/window.innerWidth  * Math.PI / 180 * 90;
+        group.rotation.y = -( window.innerWidth / 2 -e.clientX )/window.innerWidth  * Math.PI / 180 * 90;
     });
     document.getElementById( 'zoom' ).addEventListener( "change", function(e){ map.zoom = ele.zoom = e.target.value; goto(); },false );
 

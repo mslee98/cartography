@@ -9,7 +9,7 @@ var mat, depth,tex_map,tex_ele;
 var proxy = "../proxy.php?url=";
 var domains = "01,02,03,04".split( ',' );
 
-var provider = "http://ttiles{s}.mqcdn.com/tiles/1.0.0/vy/sat/{z}/{x}/{y}.png";
+var provider = proxy + "http://ttiles{s}.mqcdn.com/tiles/1.0.0/vy/sat/{z}/{x}/{y}.png";
 var ele_provider = proxy + "http://elasticterrain.xyz/data/tiles/{z}/{x}/{y}.png";
 
 var size = 1024;

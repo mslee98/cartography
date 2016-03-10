@@ -915,7 +915,7 @@ module.exports = function() {
     function init(tile_size, earth_radius)
     {
         //Initialize the TMS Global Mercator pyramid
-        this.tileSize = tile_size || 256;
+        this.tileSize = 256;// tile_size || 256;
 
         this.earthRadius = earth_radius  || 6378137;
 
@@ -1371,10 +1371,11 @@ module.exports = function()
                 console.warn( 'loaded Tile has no associated map > ', scope.key, scope.zoom );
                 return;
             }
-
+            /*
             if( scope.map.mercator.tileSize != e.target.width ){
                 scope.rescaleImage( e.target, scope.map.mercator.tileSize, window.devicePixelRatio );
             }
+            //*/
 
             scope.loaded = true;
             scope.eventEmitter.emit( Tile.ON_TILE_LOADED, scope );
@@ -1511,7 +1512,6 @@ module.exports = function()
     _p.dispose = dispose;
 
     Tile.ON_TILE_LOADED = 0;
-    Tile.FLIP_Y_AXIS = true;
 
     return Tile;
 
