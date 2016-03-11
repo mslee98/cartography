@@ -149,6 +149,7 @@ var taxis = function( exports ){
         taxi.send();
     };
 
+    exports.nextTaxi = function(t){taxiCurveId++; taxiCurveId%=taxiCurves.length; };
     exports.updateTaxiCam = function(t){
 
         var vertices = taxiCurves[taxiCurveId];

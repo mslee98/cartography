@@ -168,6 +168,7 @@ document.body.addEventListener("keyup", function(e) {
 
     if(e.keyCode == 65 ){
         start = Date.now();
+        taxis.nextTaxi();
         driveTaxi = !driveTaxi;
     }
     if(e.keyCode == 66 ){
