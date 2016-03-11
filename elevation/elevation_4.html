@@ -13,9 +13,25 @@
         margin:0;
         padding:0;
     }
+    select{
+        position: absolute;
+        top:10px;
+        left:10px;
+        z-index: 10;
+    }
+
+    #controls{
+        background-color: white;
+        position: absolute;
+        width: 100%;
+        /*height: 50px;*/
+        z-index: 10;
+        top: 0;
+    }
 </style>
 </head>
 <body>
+
 
     <script src="../vendor/light-map.js"></script>
     <script src="../vendor/three.js"></script>
@@ -24,8 +40,7 @@
     <script src="../vendor/ShaderLoader.js"></script>
 
     <script src="PostPrcessing.js"></script>
-    <script src="post_processing.js"></script>
-
+    <script src="elevation4.js"></script>
 
 </body>
 </html>
