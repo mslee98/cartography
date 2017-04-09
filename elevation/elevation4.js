@@ -9,8 +9,22 @@ var mat, depth,tex_map,tex_ele;
 var proxy = "../proxy.php?url=";
 var domains = "01,02,03,04".split( ',' );
 
-var provider = proxy + "http://ttiles{s}.mqcdn.com/tiles/1.0.0/vy/sat/{z}/{x}/{y}.png";
-var ele_provider = proxy + "http://elasticterrain.xyz/data/tiles/{z}/{x}/{y}.png";
+// var provider = proxy + "http://ttiles{s}.mqcdn.com/tiles/1.0.0/vy/sat/{z}/{x}/{y}.png";
+// var ele_provider = proxy + "http://elasticterrain.xyz/data/tiles/{z}/{x}/{y}.png";
+/*
+ var proxy = "../proxy.php?url=";
+ var provider = "http://ttiles{s}.mqcdn.com/tiles/1.0.0/vy/sat/{z}/{x}/{y}.png";
+ var domains = "01,02,03,04".split( ',' );
+
+ var map = new Map( provider, domains, size, size, 2, 11 );
+ //var ele_provider =  proxy + "http://elasticterrain.xyz/data/tiles/{z}/{x}/{y}.png";
+ ele_provider = proxy + "http://dem-grabber/elasticterrain/{z}/{x}/{y}.png";
+ var ele = new Map( ele_provider, [], size, size,2,10 );
+ //*/
+var token = "pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNpeTJucHlxYjAwMnMyd2xhZGVmNWxvbGEifQ.fPmMe_YS3aMwRv-12WRQ5g";
+var provider = "http://api.tiles.mapbox.com/v4/digitalglobe.nal0mpda/{z}/{x}/{y}.png?access_token=" + token;
+ele_provider = "https://tile.mapzen.com/mapzen/terrain/v1/terrarium/{z}/{x}/{y}.png?api_key=mapzen-foW3wh2";
+
 
 var size = 1024;
 var map = new Map( provider, domains, size * 2, size * 2, 4, 11 );
@@ -35,8 +49,9 @@ function onShadersLoaded() {
     scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera( 40, w / h, 10, 1500 );
-    camera.position.y = 350;
-    camera.position.z = 1100;
+    camera.position.y = 500;
+    camera.position.z = 350;
+    camera.lookAt(new THREE.Vector3())
 
     new THREE.OrbitControls(camera);
 
@@ -116,6 +131,15 @@ function onShadersLoaded() {
         opt.setAttribute( 'lng', list[i+3]);
         selector.appendChild( opt );
     }
+    window.addEventListener( 'keydown', function(e){
+
+        selector.selectedIndex++;
+        selector.selectedIndex %= list.length;
+        console.log( selector.selectedIndex )
+
+        var selection = selector.options[selector.selectedIndex];
+        goto( parseFloat(  selection.getAttribute('lat') ), parseFloat(selection.getAttribute('lng') ) );
+    } );
 
     selector.addEventListener( 'change', function(e){
         var selection = selector.options[selector.selectedIndex];

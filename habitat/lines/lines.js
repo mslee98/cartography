@@ -18,7 +18,9 @@ map.eventEmitter.on( Map.ON_TILE_LOADED, function( t ){
         var json = JSON.parse(e.target.responseText );
         build( t, json );
     };
-    req.open( "GET", 'http://tile.openstreetmap.us/vectiles-buildings/'+z+'/'+x+'/'+y+'.json' );
+
+    var url = 'http://tile.mapzen.com/mapzen/vector/v1/buildings/'+z+'/'+x+'/'+y+'.json?api_key=mapzen-foW3wh2';
+    req.open( "GET", url );//'http://tile.openstreetmap.us/vectiles-buildings/'+z+'/'+x+'/'+y+'.json' );
     req.send();
 });
 
@@ -31,7 +33,7 @@ function build( tile, json ) {
 
     json.features.forEach( function( feat ) {
 
-        if (buildings[feat.id] != null)return;
+        // if (buildings[feat.id] != null)return;
 
         var geometry = new THREE.Geometry();
 

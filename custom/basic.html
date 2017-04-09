@@ -82,7 +82,6 @@
             var max = json.lat.length;
             var div = 1 / 1e7;
             for( var i = 0; i< max; i++ ) {
-
                 json.lat[i] *= div;
                 json.lng[i] *= div;
             }
@@ -116,6 +115,9 @@
         map.renderTiles(true);
 
         ctx.globalAlpha = 1;
+        ctx.lineWidth = 5;
+        ctx.lineCap = "square";
+        ctx.lineJoin = "square";
 
         ctx.beginPath();
         for( var i = 0; i < json.lat.length; i++ ){

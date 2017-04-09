@@ -9,6 +9,9 @@ varying vec2 vUv;
 //the main method
 float decodeElevation( vec2 uv ){
 
+    vec3 c = texture2D( ele, ( uv / 256. * 254.) + size ).xyz;
+    float e = (c.r * 256. * 256. + c.g * 256. + c.b / 256.) - 32768.;
+    return e;
     //sample the elevation texture
     vec2 colorChannels = texture2D( ele, ( uv / 256. * 254.) + size ).xy;
 
@@ -31,7 +34,7 @@ void main(void){
 
     //adds elevation to original vertex position
     vec3 pos = position;
-    pos.z += elevation * scale;
+    pos.z = scale * .5 - elevation * scale;
 
     //earth center ( -6371 km )
     vec3 center = vec3( 0.,0., -6371000. * scale );

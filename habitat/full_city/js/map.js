@@ -43,7 +43,9 @@ var map = function(exports){
                 if(check.target.responseText == '0' ){
 
                     //fetch from server
-                    url = 'http://tile.openstreetmap.us/vectiles-buildings/'+z+'/'+x+'/'+y+'.json';
+                    // url = 'http://tile.openstreetmap.us/vectiles-buildings/'+z+'/'+x+'/'+y+'.json';
+
+                    url = 'http://tile.mapzen.com/mapzen/vector/v1/buildings/'+z+'/'+x+'/'+y+'.json?api_key=mapzen-foW3wh2';
 
                     //stores a local copy
                     var folder = 'data/vectiles-buildings/'+z+'/'+x+'/';
@@ -93,7 +95,9 @@ var map = function(exports){
                 if(e.target.responseText == '0'  ) {
 
                     //fetch from server
-                    url = 'http://tile.openstreetmap.us/vectiles-land-usages/'+z+'/'+x+'/'+y+'.json';
+                    // url = 'http://tile.openstreetmap.us/vectiles-land-usages/'+z+'/'+x+'/'+y+'.json';
+                    url = 'http://tile.mapzen.com/mapzen/vector/v1/landuse/'+z+'/'+x+'/'+y+'.json?api_key=mapzen-foW3wh2';
+
 
                     //stores a local copy
                     var folder = 'data/vectiles-land-usages/'+z+'/'+x+'/';
