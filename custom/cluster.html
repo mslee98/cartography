@@ -117,6 +117,10 @@
         var w = map.width;
         var h = map.height;
 
+        ctx.lineWidth = 5;
+        ctx.lineCap = "square";
+        ctx.lineJoin = "square";
+
         ctx.strokeStyle = '#000';
         ctx.beginPath();
         for( var i = 0; i < coords.length; i+=8 ){

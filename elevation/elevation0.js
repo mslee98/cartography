@@ -7,12 +7,12 @@ var mat, tex_map, tex_ele;
 
 var size = 512;
 
-var provider = "http://ttiles{s}.mqcdn.com/tiles/1.0.0/vy/sat/{z}/{x}/{y}.png";
+var token = "pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNpeTJucHlxYjAwMnMyd2xhZGVmNWxvbGEifQ.fPmMe_YS3aMwRv-12WRQ5g";
+var provider = "http://api.tiles.mapbox.com/v4/digitalglobe.nal0mpda/{z}/{x}/{y}.png?access_token=" + token;
 var domains = "01,02,03,04".split( ',' );
-var map = new Map( provider, domains, size, size, 0, 10 );
-
-var ele_provider = "https://1718017694.rsc.cdn77.org/elevation/{z}/{x}/{y}.png";
-var ele = new Map( ele_provider, [], size, size,0,10 );
+var map = new Map( provider, domains, size, size, 2, 11 );
+var ele_provider = "https://tile.mapzen.com/mapzen/terrain/v1/terrarium/{z}/{x}/{y}.png?api_key=mapzen-foW3wh2";
+var ele = new Map( ele_provider, [], size, size,2,10 );
 
 
 var places = [

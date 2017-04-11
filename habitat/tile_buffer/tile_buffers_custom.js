@@ -20,7 +20,8 @@ map.eventEmitter.on( Map.ON_TILE_LOADED, function( t, s ){
     var y = t.ty;
     var z = map.zoom;
     var req = new XMLHttpRequest();
-    req.open( "GET", 'http://tile.openstreetmap.us/vectiles-buildings/'+z+'/'+x+'/'+y+'.json' );
+    var url = 'http://tile.mapzen.com/mapzen/vector/v1/buildings/'+z+'/'+x+'/'+y+'.json?api_key=mapzen-foW3wh2';
+    req.open( "GET", url );
     req.onload = function(e){
         var json = JSON.parse(e.target.responseText );
         build( t, json );
@@ -52,7 +53,7 @@ function build( tile, json ) {
     json.features.forEach( function( feat ) {
 
         //var uid = feat.properties.id.toString();
-        var uid = feat.id.toString();
+        // var uid = feat.id.toString();
 
         //this feature is a single point (street names mostly)
         if( !isNaN( feat.geometry.coordinates[0] ) ){
@@ -61,11 +62,11 @@ function build( tile, json ) {
         }
 
         //the feature with this ID has already been built
-        if (buildings[ uid ] != null )return;
+        // if (buildings[ uid ] != null )return;
         buildings_count++;
         //stores the uid for this feature and prevents duplicate instanciation
-        buildings[ uid ] = uid;
-        UIDBuffer.push( uid );
+        // buildings[ uid ] = uid;
+        // UIDBuffer.push( uid );
 
         var valid = true;
         var edges = [];

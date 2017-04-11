@@ -11,6 +11,9 @@ varying vec3 nor;
 //the main method
 float decodeElevation( vec2 uv ){
 
+    vec3 c = texture2D( ele, ( uv / 256. * 254.) + size ).xyz;
+    float e = (c.r * 256. * 256. + c.g * 256. + c.b / 256.) - 32768.;
+    return e;
     //sample the elevation texture
     vec2 colorChannels = texture2D( ele, ( uv / 256. * 254.) + size ).xy;
 

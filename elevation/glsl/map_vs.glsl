@@ -13,6 +13,11 @@ varying float vDepth;
 
 float decodeElevation( vec2 uv ){
 
+    vec3 c = texture2D( ele, ( uv / 256. * 254.) + size ).xyz;
+    float e = (c.r * 256. * 256. + c.g * 256. + c.b / 256.) - 32768.;
+    return min( e -11000.0, 8848.0 );
+
+
     vec2 colorChannels = texture2D( ele, ( uv / 256. * 254.) + size ).xy;
     //colorChannels = texture2D( ele, uv ).xy;
 

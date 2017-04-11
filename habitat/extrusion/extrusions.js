@@ -20,9 +20,8 @@ map.eventEmitter.on( Map.ON_TILE_LOADED, function( t ){
         var json = JSON.parse(e.target.responseText );
         build( t, json );
     };
-    //req.open( "GET", 'https://vector.mapzen.com/osm/buildings/'+z+'/'+x+'/'+y+'.json?api_key=vector-tiles-0l490OQ' );
-    req.open( "GET", 'http://tile.openstreetmap.us/vectiles-buildings/'+z+'/'+x+'/'+y+'.json' );
-
+    var url = 'http://tile.mapzen.com/mapzen/vector/v1/buildings/'+z+'/'+x+'/'+y+'.json?api_key=mapzen-foW3wh2';
+    req.open( "GET", url );
     //if( id++ == 0 )
         req.send();
 });
@@ -36,7 +35,7 @@ function build( tile, json ) {
     json.features.forEach( function( feat ) {
 
         //var uid = feat.properties.id.toString();
-        var uid = feat.id.toString();
+        // var uid = feat.id.toString();
 
         //this feature is a single point (street names mostly)
         if( !isNaN( feat.geometry.coordinates[0] ) ){
@@ -45,7 +44,7 @@ function build( tile, json ) {
         }
 
         //the feature with this ID has already been built
-        if (buildings[ uid ] != null )return;
+        // if (buildings[ uid ] != null )return;
 
         var edges = [];
         var vertices = [];
@@ -90,7 +89,7 @@ function build( tile, json ) {
         
         var extrusion = new Extrusion( vertices, edges, buildingMaterial, height, uvMin, uvMax );
         group.add( extrusion );
-        buildings[ uid ] = extrusion;
+        // buildings[ uid ] = extrusion;
 
     });
 }
