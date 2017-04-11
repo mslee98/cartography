@@ -76,7 +76,7 @@ void main(void){
 
     //heroic fantasy
     if( heroic > 0. ){
-    pos = center + normalize( pos - center ) * ( -center.z + elevation * scale * vDepth );
-    gl_Position = projectionMatrix * modelViewMatrix * vec4( pos, 1. );
+        pos = center + normalize( pos - center ) * ( -center.z + elevation * scale * vDepth );
+        gl_Position = projectionMatrix * modelViewMatrix * vec4( pos, 1. );
     }
 }

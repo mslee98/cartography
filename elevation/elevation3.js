@@ -12,10 +12,8 @@ var tex_map = tl.load("img/env.png", function( ){tex_map.needsUpdate = true; });
 
 var size = 1024;
 
-var proxy = "../proxy.php?url=";
-var ele_provider =  proxy + "http://elasticterrain.xyz/data/tiles/{z}/{x}/{y}.png";
-ele_provider = proxy + "http://dem-grabber/elasticterrain/{z}/{x}/{y}.png";
-var ele = new Map( ele_provider, [], size, size,2,10 );
+var ele_provider = "https://1718017694.rsc.cdn77.org/elevation/{z}/{x}/{y}.png";
+var ele = new Map( ele_provider, [], size, size,0,10 );
 
 
 var places = [
@@ -83,10 +81,9 @@ function onShadersLoaded() {
 
     target = new THREE.Vector3(0,-150,0);
 
-    ele.setView( 47.102427053621284,-0.8166796093749844, 8 );
     lat = 37.773972;
     lng = -122.431297;
-    ele.setView( lat, lng, 8 );
+    ele.setView( lat, lng,  document.getElementById( 'zoom').value  );
 
     document.getElementById( 'zoom' ).addEventListener( "change", function(e){ ele.zoom = e.target.value; goto(); },false );
     document.getElementById( 'lisbon'   ).addEventListener( "mousedown", function(e){ goto( places[0][0], places[0][1] ); },false );

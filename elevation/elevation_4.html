@@ -13,12 +13,12 @@
         margin:0;
         padding:0;
     }
-    select{
-        position: absolute;
-        top:10px;
-        left:10px;
-        z-index: 10;
-    }
+    /*select{*/
+        /*position: absolute;*/
+        /*top:10px;*/
+        /*left:10px;*/
+        /*z-index: 10;*/
+    /*}*/
 
     #controls{
         background-color: white;
@@ -32,6 +32,16 @@
 </head>
 <body>
 
+
+    <div id="controls">
+        <label for="scale">scale</label>
+        <input id="scale" type="range" min="1" max="10" value="4" step=".1" style="width:128px">
+        <label for="zoom">zoom</label>
+        <input id="zoom" type="range" min="1" max="10" value="10" step="1" style="width:128px">
+        <label for="heroic">bend</label>
+        <input id="heroic" type="checkbox">
+        <select id="volcanoes"></select>
+    </div>
 
     <script src="../vendor/light-map.js"></script>
     <script src="../vendor/three.js"></script>

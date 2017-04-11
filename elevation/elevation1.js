@@ -7,14 +7,12 @@ var mat, tex_map, tex_ele;
 
 var size = 1024;
 
-var proxy = "../proxy.php?url=";
 var provider = "http://ttiles{s}.mqcdn.com/tiles/1.0.0/vy/sat/{z}/{x}/{y}.png";
 var domains = "01,02,03,04".split( ',' );
+var map = new Map( provider, domains, size, size, 0, 10 );
 
-var map = new Map( provider, domains, size, size, 2, 11 );
-//var ele_provider =  proxy + "http://elasticterrain.xyz/data/tiles/{z}/{x}/{y}.png";
-ele_provider = proxy + "http://dem-grabber/elasticterrain/{z}/{x}/{y}.png";
-var ele = new Map( ele_provider, [], size, size,2,10 );
+ele_provider = "https://1718017694.rsc.cdn77.org/elevation/{z}/{x}/{y}.png";
+var ele = new Map( ele_provider, [], size, size,0,10 );
 
 
 var places = [

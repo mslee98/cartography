@@ -18,6 +18,7 @@ var map = function(exports){
             var z = map.zoom;
 
             //check if we have a local copy
+            /*
             var checkBuilding = new XMLHttpRequest();
             checkBuilding.onload = function(check){
 
@@ -67,8 +68,27 @@ var map = function(exports){
             };
             checkBuilding.open( "GET", 'fileExist.php?url=data/vectiles-buildings/'+z+'/'+x+'/'+y+'.json' );
             checkBuilding.send();
+            //*/
+            var buildings = new XMLHttpRequest();
+            buildings.onload = function(e){
+                if (buildings.readyState === 4) {
+                    if (buildings.status === 200) {
 
-
+                        if( e.target.responseText == '' ){
+                            console.log( "empty JSON", url );
+                            return
+                        }
+                        var json = JSON.parse(e.target.responseText );
+                        builder.buildBlocks( t, "buildings", json );
+                    }else{
+                        console.log("error loading buildings");
+                    }
+                }
+            };
+            //buildings.open( "GET", 'http://tile.openstreetmap.us/vectiles-buildings/'+z+'/'+x+'/'+y+'.json' );
+            buildings.open( "GET", 'https://1718017694.rsc.cdn77.org/cartography/habitat/full_city/data/vectiles-buildings/'+z+'/'+x+'/'+y+'.json' );
+            buildings.send();
+            /*
             var checkLandUse = new XMLHttpRequest();
             checkLandUse.onload = function(e){
 
@@ -115,7 +135,26 @@ var map = function(exports){
             };
             checkLandUse.open( "GET", 'fileExist.php?url=data/vectiles-land-usages/'+z+'/'+x+'/'+y+'.json' );
             checkLandUse.send();
+            //*/
+            var landuse = new XMLHttpRequest();
+            landuse.onload = function(e){
+                if (landuse.readyState === 4) {
+                    if (landuse.status === 200) {
 
+                        if( e.target.responseText == '' ){
+                            console.log( "empty JSON", url );
+                            return
+                        }
+                        var json = JSON.parse(e.target.responseText );
+                        builder.buildBlocks( t, "landuse", json );
+                    }else{
+                        console.log("error loading land usage");
+                    }
+                }
+            };
+            //landuse.open( "GET", 'http://tile.openstreetmap.us/vectiles-land-usages/'+z+'/'+x+'/'+y+'.json' );
+            landuse.open( "GET", 'https://1718017694.rsc.cdn77.org/cartography/habitat/full_city/data/vectiles-land-usages/'+z+'/'+x+'/'+y+'.json' );
+            landuse.send();
         });
 
     };

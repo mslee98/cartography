@@ -14,7 +14,7 @@ void main(){
 
     float bin = .5;
     float bout = bin + .5;
-    float f_d = smoothstep( bin, bout, abs( sin( ( t_depth.r - .25 ) * 3.14159 ) ) );
+    float f_d = smoothstep( bin, bout, t_depth.r );
 
     vec4 blur = vec4(1.);
     for ( float i = 0.; i < blurSteps; i+=1.) {

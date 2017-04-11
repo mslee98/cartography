@@ -61,12 +61,6 @@ window.onload = function() {
     //skybox texture from http://www.keithlantz.net/2011/10/rendering-a-skybox-using-a-cube-map-with-opengl-and-glsl/
     skybox = new Skybox( "img/skybox_texture.jpg", 512, 0, function(){
 
-         //dino.init( scene, camera, xy, skybox.cubeMap );
-         //dinoLoaded = true;
-         //camera.position.set( -13629938.83783227, 100, -4545704.796943032 );
-         //controls.target.set( -13627973.806908408, 1040.3513288190197, -4547575.779487265 );
-         //controls.update();
-         ///*
         if( skybox.mesh ){
             skybox.mesh.position.x = xy[0];
             skybox.mesh.position.z = xy[1];
