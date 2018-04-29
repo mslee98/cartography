@@ -65,6 +65,8 @@
             update();
         };
 
+        var buildingIds = [];
+        var buildings = [];
 
         function build( tile, json ) {
 
@@ -74,8 +76,15 @@
 
             json.features.forEach( function( feat ) {
 
+                if( buildingIds.indexOf( feat.properties.id ) != -1 )return;
+
                 //console.log(feat.geometry.coordinates);
                 try{
+
+                    if( feat.geometry.coordinates[0].length == 1 ){
+                        console.log( "point" )
+                        return;
+                    }
 
                     feat.geometry.coordinates.forEach(function (coordinates) {
 
@@ -86,24 +95,28 @@
 
                         });
                         polylines.push( line );
+                        buildings.push( line );
 
                     });
 
+
+                    console.log( feat.properties );
+                    buildingIds.push( feat.properties.id );
                 }catch(e){
                     //nope...
                 }
             });
-
+            update();
         }
 
         function update(){
 
-            requestAnimationFrame( update );
+//            requestAnimationFrame( update );
             ctx.globalAlpha = .25;
             map.renderTiles(true);
 
             //render the polyines if any
-            polylines.forEach( function( line, i ){
+            buildings.forEach( function( line, i ){
 
                 ctx.fillStyle = colors[ i % colors.length ];
                 ctx.globalAlpha = 1;

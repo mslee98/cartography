@@ -11,7 +11,7 @@ var token = "pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNpeTJucHlxYjAwMnMyd2xhZGVmNWxv
 var provider = "http://api.tiles.mapbox.com/v4/digitalglobe.nal0mpda/{z}/{x}/{y}.png?access_token=" + token;
 var domains = "01,02,03,04".split( ',' );
 var map = new Map( provider, domains, size, size, 2, 11 );
-var ele_provider = "https://tile.mapzen.com/mapzen/terrain/v1/terrarium/{z}/{x}/{y}.png?api_key=mapzen-foW3wh2";
+var ele_provider = "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png";
 var ele = new Map( ele_provider, [], size, size,2,10 );
 
 
